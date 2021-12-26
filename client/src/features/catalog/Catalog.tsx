@@ -6,17 +6,20 @@ import Typography from '@mui/material/Typography';
 import { Avatar, Button, CardActionArea, List,ListItem, ListItemAvatar, ListItemText } from '@mui/material';
 import Igua from '../../Static/images/image1.jpeg';
 import ProductList from "./ProductList";
+import { useEffect, useState } from "react";
 
 
-interface Props{
-    Products : Product[];
-    addProduct : () => void;
-}
-export default function Catalog({Products,addProduct}:Props){
+export default function Catalog(){
+
+    const [Products,setProducts]=useState<Product[]>([]);
+    useEffect(()=>{
+      fetch('http://localhost:5000/api/products')
+      .then(response=>response.json())
+      .then(data=>setProducts(data))
+    },[])
     return(
      <> 
-      <ProductList Products={Products}></ProductList>
-      <Button variant='contained' onClick={addProduct}>AddProduct</Button>
+      <ProductList Products={Products}></ProductList>  
      </>
     )
 }
